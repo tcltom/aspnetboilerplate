@@ -3,16 +3,20 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Claims;
 using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
+using SqlSugar;
 
 namespace Abp.Authorization.Roles
 {
-    [Table("AbpRoleClaims")]
+    [SugarTable("AbpRoleClaims")]
     public class RoleClaim : CreationAuditedEntity<long>, IMayHaveTenant
     {
         /// <summary>
         /// Maximum length of the <see cref="ClaimType"/> property.
         /// </summary>
         public const int MaxClaimTypeLength = 256;
+
+        [SugarColumn(IsPrimaryKey = true)]
+        public virtual long Id { get; set; }
 
         public virtual int? TenantId { get; set; }
 

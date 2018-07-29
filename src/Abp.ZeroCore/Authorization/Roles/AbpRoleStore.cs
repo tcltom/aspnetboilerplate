@@ -47,16 +47,19 @@ namespace Abp.Authorization.Roles
         public IQueryable<TRole> Roles => _roleRepository.GetAll().ToList().AsQueryable();//(tcl.update)
 
         private readonly IRepository<TRole> _roleRepository;
+        private readonly IRepository<RoleClaim> _roleClaimRepository;
         private readonly IUnitOfWorkManager _unitOfWorkManager;
         private readonly IRepository<RolePermissionSetting, long> _rolePermissionSettingRepository;
 
         public AbpRoleStore(
             IUnitOfWorkManager unitOfWorkManager,
-            IRepository<TRole> roleRepository, 
+            IRepository<TRole> roleRepository,
+            IRepository<RoleClaim> roleClaimRepository,
             IRepository<RolePermissionSetting, long> rolePermissionSettingRepository)
         {
             _unitOfWorkManager = unitOfWorkManager;
             _roleRepository = roleRepository;
+            _roleClaimRepository = roleClaimRepository;
             _rolePermissionSettingRepository = rolePermissionSettingRepository;
 
             ErrorDescriber = new IdentityErrorDescriber();
@@ -280,6 +283,7 @@ namespace Abp.Authorization.Roles
 
             Check.NotNull(role, nameof(role));
 
+            role.Claims = _roleClaimRepository.GetAll().Where(p => p.RoleId == role.Id).ToList();
             await _roleRepository.EnsureCollectionLoadedAsync(role, u => u.Claims, cancellationToken);
 
             return role.Claims.Select(c => new Claim(c.ClaimType, c.ClaimValue)).ToList();

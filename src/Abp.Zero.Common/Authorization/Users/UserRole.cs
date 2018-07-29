@@ -1,15 +1,19 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
+using SqlSugar;
 
 namespace Abp.Authorization.Users
 {
     /// <summary>
     /// Represents role record of a user. 
     /// </summary>
-    [Table("AbpUserRoles")]
+    [SugarTable("AbpUserRoles")]
     public class UserRole : CreationAuditedEntity<long>, IMayHaveTenant
     {
+        [SugarColumn(IsPrimaryKey = true)]
+        public virtual long Id { get; set; }
+
         public virtual int? TenantId { get; set; }
 
         /// <summary>

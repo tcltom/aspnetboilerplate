@@ -9,13 +9,14 @@ using Abp.Extensions;
 using Abp.Json;
 using Abp.Runtime.Validation;
 using Abp.UI;
+using SqlSugar;
 
 namespace Abp.Auditing
 {
     /// <summary>
     /// Used to store audit logs.
     /// </summary>
-    [Table("AbpAuditLogs")]
+    [SugarTable("AbpAuditLogs")]
     public class AuditLog : Entity<long>, IMayHaveTenant
     {
         /// <summary>
@@ -57,6 +58,9 @@ namespace Abp.Auditing
         /// Maximum length of <see cref="CustomData"/> property.
         /// </summary>
         public static int MaxCustomDataLength = 2000;
+
+        [SugarColumn(IsPrimaryKey = true, IsIdentity=true)]
+        public virtual long Id { get; set; }
 
         /// <summary>
         /// TenantId.

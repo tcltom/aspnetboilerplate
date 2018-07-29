@@ -3,13 +3,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
 using Abp.MultiTenancy;
+using SqlSugar;
 
 namespace Abp.Application.Features
 {
     /// <summary>
     /// Base class for feature settings
     /// </summary>
-    [Table("AbpFeatures")]
+    [SugarTable("AbpFeatures")]
     [MultiTenancySide(MultiTenancySides.Host)]
     public abstract class FeatureSetting : CreationAuditedEntity<long>, IMayHaveTenant
     {
@@ -22,6 +23,9 @@ namespace Abp.Application.Features
         /// Maximum length of the <see cref="Value"/> property.
         /// </summary>
         public const int MaxValueLength = 2000;
+
+        [SugarColumn(IsPrimaryKey = true)]
+        public virtual long Id { get; set; }
 
         public virtual int? TenantId { get; set; }
 

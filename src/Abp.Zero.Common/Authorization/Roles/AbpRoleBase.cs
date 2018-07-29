@@ -5,13 +5,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Authorization.Users;
 using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
+using SqlSugar;
 
 namespace Abp.Authorization.Roles
 {
     /// <summary>
     /// Base class for role.
     /// </summary>
-    [Table("AbpRoles")]
+    [SugarTable("AbpRoles")]
     public abstract class AbpRoleBase : FullAuditedEntity<int>, IMayHaveTenant
     {
         /// <summary>
@@ -24,6 +25,7 @@ namespace Abp.Authorization.Roles
         /// </summary>
         public const int MaxNameLength = 32;
 
+        [SugarColumn(IsPrimaryKey = true)]
         public virtual int Id { get; set; }
 
         /// <summary>
@@ -61,6 +63,7 @@ namespace Abp.Authorization.Roles
         /// List of permissions of the role.
         /// </summary>
         [ForeignKey("RoleId")]
+        [SugarColumn(IsIgnore = true)]
         public virtual ICollection<RolePermissionSetting> Permissions { get; set; }
 
         protected AbpRoleBase()

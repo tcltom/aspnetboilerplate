@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+    <Folder Include="SqlSugarCore\BaseRepositories\Auto\" />
+    <Folder Include="SqlSugarCore\BaseRepositories\Group\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ImpromptuInterface" Version="7.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\extend\Abp.SqlSugarCore\Abp.SqlSugarCore.csproj" />
+    <ProjectReference Include="..\tcl.MetadataManageTool.Core\tcl.MetadataManageTool.Core.csproj" />
+    <ProjectReference Include="..\tcl.SqlSugarExtend\tcl.SqlSugarExtend.csproj" />
+  </ItemGroup>
+
+</Project>

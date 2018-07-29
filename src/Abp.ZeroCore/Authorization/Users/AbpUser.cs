@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Abp.Domain.Entities.Auditing;
+using SqlSugar;
 
 namespace Abp.Authorization.Users
 {
@@ -38,12 +39,16 @@ namespace Abp.Authorization.Users
         [StringLength(MaxConcurrencyStampLength)]
         public virtual string ConcurrencyStamp { get; set; } = Guid.NewGuid().ToString();
 
+        [SugarColumn(IsIgnore = true)]
         public virtual ICollection<UserToken> Tokens { get; set; }
 
+        [SugarColumn(IsIgnore = true)]
         public virtual TUser DeleterUser { get; set; }
 
+        [SugarColumn(IsIgnore = true)]
         public virtual TUser CreatorUser { get; set; }
 
+        [SugarColumn(IsIgnore = true)]
         public virtual TUser LastModifierUser { get; set; }
         
         protected AbpUser()

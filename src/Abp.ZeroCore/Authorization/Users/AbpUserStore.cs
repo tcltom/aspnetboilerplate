@@ -17,6 +17,7 @@ using Abp.Zero;
 using Castle.Core.Logging;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Identity;
+using SqlSugar;
 
 namespace Abp.Authorization.Users
 {
@@ -63,9 +64,11 @@ namespace Abp.Authorization.Users
 
         public IRepository<TUser, long> UserRepository { get; }
 
+        public IRepository<UserClaim, long> UserClaimsRepository { get; }
+
         private readonly IRepository<TRole> _roleRepository;
         private readonly IRepository<UserRole, long> _userRoleRepository;
-        private readonly IAsyncQueryableExecuter _asyncQueryableExecuter;
+        //private readonly IAsyncQueryableExecuter _asyncQueryableExecuter;
         private readonly IRepository<UserLogin, long> _userLoginRepository;
         private readonly IRepository<UserClaim, long> _userClaimRepository;
         private readonly IRepository<UserPermissionSetting, long> _userPermissionSettingRepository;
@@ -76,7 +79,8 @@ namespace Abp.Authorization.Users
             IUnitOfWorkManager unitOfWorkManager,
             IRepository<TUser, long> userRepository,
             IRepository<TRole> roleRepository,
-            IAsyncQueryableExecuter asyncQueryableExecuter, 
+            IRepository<UserClaim, long> uerClaimsRepository,
+            //IAsyncQueryableExecuter asyncQueryableExecuter, 
             IRepository<UserRole, long> userRoleRepository, 
             IRepository<UserLogin, long> userLoginRepository, 
             IRepository<UserClaim, long> userClaimRepository, 
@@ -84,8 +88,9 @@ namespace Abp.Authorization.Users
         {
             _unitOfWorkManager = unitOfWorkManager;
             UserRepository = userRepository;
+            UserClaimsRepository = uerClaimsRepository;
             _roleRepository = roleRepository;
-            _asyncQueryableExecuter = asyncQueryableExecuter;
+            //_asyncQueryableExecuter = asyncQueryableExecuter;
             _userRoleRepository = userRoleRepository;
             _userLoginRepository = userLoginRepository;
             _userClaimRepository = userClaimRepository;
@@ -421,14 +426,15 @@ namespace Abp.Authorization.Users
             cancellationToken.ThrowIfCancellationRequested();
 
             Check.NotNull(user, nameof(user));
-            //(tcl.remove)
+            //(tcl.update)
+            var query = _userRoleRepository.GetAll().Context.Queryable<UserRole, AbpRoleBase>((p1, p2) => new object[] {
+        JoinType.Inner,p1.RoleId==p2.Id}).Where((p1, p2) => p1.UserId == user.Id).Select((p1, p2) => p2.Name);
             //var query = from userRole in _userRoleRepository.GetAll()
             //            join role in _roleRepository.GetAll() on userRole.RoleId equals role.Id
             //            where userRole.UserId == user.Id
             //            select role.Name;
 
-            //return await _asyncQueryableExecuter.ToListAsync(query);
-            return null;
+            return await NullAsyncQueryableExecuter.Instance.ToListAsync(query);
         }
 
         /// <summary>
@@ -481,6 +487,7 @@ namespace Abp.Authorization.Users
 
             Check.NotNull(user, nameof(user));
 
+            user.Claims = UserClaimsRepository.GetAll().Where(p => p.UserId == user.Id).ToList();
             await UserRepository.EnsureCollectionLoadedAsync(user, u => u.Claims, cancellationToken);
 
             return user.Claims.Select(c => new Claim(c.ClaimType, c.ClaimValue)).ToList();

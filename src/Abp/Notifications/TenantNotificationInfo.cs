@@ -3,15 +3,17 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
+using SqlSugar;
 
 namespace Abp.Notifications
 {
     /// <summary>
     /// A notification distributed to it's related tenant.
     /// </summary>
-    [Table("AbpTenantNotifications")]
+    [SugarTable("AbpTenantNotifications")]
     public class TenantNotificationInfo : CreationAuditedEntity<Guid>, IMayHaveTenant
     {
+        [SugarColumn(IsPrimaryKey = true)]
         public virtual Guid Id { get; set; }
 
         /// <summary>

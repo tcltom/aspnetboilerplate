@@ -3,13 +3,14 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities.Auditing;
 using Abp.MultiTenancy;
+using SqlSugar;
 
 namespace Abp.Authorization.Users
 {
     /// <summary>
     /// Represents a summary user
     /// </summary>
-    [Table("AbpUserAccounts")]
+    [SugarTable("AbpUserAccounts")]
     [MultiTenancySide(MultiTenancySides.Host)]
     public class UserAccount : FullAuditedEntity<long>
     {
@@ -22,6 +23,9 @@ namespace Abp.Authorization.Users
         /// Maximum length of the <see cref="EmailAddress"/> property.
         /// </summary>
         public const int MaxEmailAddressLength = 256;
+
+        [SugarColumn(IsPrimaryKey = true)]
+        public virtual long Id { get; set; }
 
         public virtual int? TenantId { get; set; }
 

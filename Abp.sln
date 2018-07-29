@@ -113,6 +113,24 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Abp.SqlSugarCore", "extend\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Abp.ZeroCore.SqlSugarCore", "extend\Abp.ZeroCore.SqlSugarCore\Abp.ZeroCore.SqlSugarCore.csproj", "{BE2FA6F9-1DF6-44D6-8712-B1F1C963CFEB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tcl.MetadataManageTool", "tcl.MetadataManageTool", "{1BD8A851-A00E-43F6-A20A-AC9764032950}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tcl.MetadataManageTool.Application", "tcl.MetadataManageTool\tcl.MetadataManageTool.Application\tcl.MetadataManageTool.Application.csproj", "{929BFEBB-6D2E-4972-88B1-392D80D7107E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tcl.MetadataManageTool.Core", "tcl.MetadataManageTool\tcl.MetadataManageTool.Core\tcl.MetadataManageTool.Core.csproj", "{6134087E-7D3F-4470-8995-9E3A7E3532D9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tcl.MetadataManageTool.SqlSugarCore", "tcl.MetadataManageTool\tcl.MetadataManageTool.SqlSugarCore\tcl.MetadataManageTool.SqlSugarCore.csproj", "{5408C1A3-F056-4DD3-B8A9-58B1DE0CB00B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tcl.MetadataManageTool.Web.Core", "tcl.MetadataManageTool\tcl.MetadataManageTool.Web.Core\tcl.MetadataManageTool.Web.Core.csproj", "{2FE15653-AD79-4D2C-B385-8364686799B6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tcl.MetadataManageTool.Web.Host", "tcl.MetadataManageTool\tcl.MetadataManageTool.Web.Host\tcl.MetadataManageTool.Web.Host.csproj", "{609814E2-06B9-403F-9146-7A04B87CA8D8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tcl.MetadataManageTool.Web.Mvc", "tcl.MetadataManageTool\tcl.MetadataManageTool.Web.Mvc\tcl.MetadataManageTool.Web.Mvc.csproj", "{EF3FD345-EC79-48DE-99E6-10EE57C7DA3D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tcl.RepositoryExtend", "tcl.MetadataManageTool\tcl.RepositoryExtend\tcl.RepositoryExtend.csproj", "{746F6D4E-4A33-48A1-ACB5-EC0C7C920392}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tcl.SqlSugarExtend", "tcl.MetadataManageTool\tcl.SqlSugarExtend\tcl.SqlSugarExtend.csproj", "{F4B0BD56-6D88-4C79-BCD2-8932F8730E54}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -307,6 +325,38 @@ Global
 		{BE2FA6F9-1DF6-44D6-8712-B1F1C963CFEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE2FA6F9-1DF6-44D6-8712-B1F1C963CFEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE2FA6F9-1DF6-44D6-8712-B1F1C963CFEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{929BFEBB-6D2E-4972-88B1-392D80D7107E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{929BFEBB-6D2E-4972-88B1-392D80D7107E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{929BFEBB-6D2E-4972-88B1-392D80D7107E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{929BFEBB-6D2E-4972-88B1-392D80D7107E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6134087E-7D3F-4470-8995-9E3A7E3532D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6134087E-7D3F-4470-8995-9E3A7E3532D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6134087E-7D3F-4470-8995-9E3A7E3532D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6134087E-7D3F-4470-8995-9E3A7E3532D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5408C1A3-F056-4DD3-B8A9-58B1DE0CB00B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5408C1A3-F056-4DD3-B8A9-58B1DE0CB00B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5408C1A3-F056-4DD3-B8A9-58B1DE0CB00B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5408C1A3-F056-4DD3-B8A9-58B1DE0CB00B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FE15653-AD79-4D2C-B385-8364686799B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FE15653-AD79-4D2C-B385-8364686799B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FE15653-AD79-4D2C-B385-8364686799B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FE15653-AD79-4D2C-B385-8364686799B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{609814E2-06B9-403F-9146-7A04B87CA8D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{609814E2-06B9-403F-9146-7A04B87CA8D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{609814E2-06B9-403F-9146-7A04B87CA8D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{609814E2-06B9-403F-9146-7A04B87CA8D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF3FD345-EC79-48DE-99E6-10EE57C7DA3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF3FD345-EC79-48DE-99E6-10EE57C7DA3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF3FD345-EC79-48DE-99E6-10EE57C7DA3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF3FD345-EC79-48DE-99E6-10EE57C7DA3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{746F6D4E-4A33-48A1-ACB5-EC0C7C920392}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{746F6D4E-4A33-48A1-ACB5-EC0C7C920392}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{746F6D4E-4A33-48A1-ACB5-EC0C7C920392}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{746F6D4E-4A33-48A1-ACB5-EC0C7C920392}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4B0BD56-6D88-4C79-BCD2-8932F8730E54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4B0BD56-6D88-4C79-BCD2-8932F8730E54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4B0BD56-6D88-4C79-BCD2-8932F8730E54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4B0BD56-6D88-4C79-BCD2-8932F8730E54}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -359,6 +409,14 @@ Global
 		{8C6595EA-C3CD-47E6-AE98-9E8ADFD92E67} = {DFF0464B-5402-4DD6-86F5-2AEC1163B232}
 		{FE95468D-C041-43F6-88F6-36435116FCF7} = {B574D70C-76B7-40A6-9ACA-A866E0E79A3A}
 		{BE2FA6F9-1DF6-44D6-8712-B1F1C963CFEB} = {B574D70C-76B7-40A6-9ACA-A866E0E79A3A}
+		{929BFEBB-6D2E-4972-88B1-392D80D7107E} = {1BD8A851-A00E-43F6-A20A-AC9764032950}
+		{6134087E-7D3F-4470-8995-9E3A7E3532D9} = {1BD8A851-A00E-43F6-A20A-AC9764032950}
+		{5408C1A3-F056-4DD3-B8A9-58B1DE0CB00B} = {1BD8A851-A00E-43F6-A20A-AC9764032950}
+		{2FE15653-AD79-4D2C-B385-8364686799B6} = {1BD8A851-A00E-43F6-A20A-AC9764032950}
+		{609814E2-06B9-403F-9146-7A04B87CA8D8} = {1BD8A851-A00E-43F6-A20A-AC9764032950}
+		{EF3FD345-EC79-48DE-99E6-10EE57C7DA3D} = {1BD8A851-A00E-43F6-A20A-AC9764032950}
+		{746F6D4E-4A33-48A1-ACB5-EC0C7C920392} = {1BD8A851-A00E-43F6-A20A-AC9764032950}
+		{F4B0BD56-6D88-4C79-BCD2-8932F8730E54} = {1BD8A851-A00E-43F6-A20A-AC9764032950}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5A1CB38E-F77D-4A40-B3A9-9A70C3F3BC6D}

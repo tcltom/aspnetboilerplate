@@ -1,10 +1,11 @@
 ﻿using Abp.Domain.Entities;
+using SqlSugar;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Abp.EntityHistory
 {
-    [Table("AbpEntityPropertyChanges")]
+    [SugarTable("AbpEntityPropertyChanges")]
     public class EntityPropertyChange : Entity<long>, IMayHaveTenant
     {
         /// <summary>
@@ -24,6 +25,9 @@ namespace Abp.EntityHistory
         /// Value: 512.
         /// </summary>
         public const int MaxPropertyTypeFullNameLength = 192;
+
+        [SugarColumn(IsPrimaryKey = true)]
+        public virtual long Id { get; set; }
 
         /// <summary>
         /// EntityChangeId.

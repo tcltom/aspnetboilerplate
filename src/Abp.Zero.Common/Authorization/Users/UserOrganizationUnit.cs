@@ -2,15 +2,19 @@
 using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
 using Abp.Organizations;
+using SqlSugar;
 
 namespace Abp.Authorization.Users
 {
     /// <summary>
     /// Represents membership of a User to an OU.
     /// </summary>
-    [Table("AbpUserOrganizationUnits")]
+    [SugarTable("AbpUserOrganizationUnits")]
     public class UserOrganizationUnit : CreationAuditedEntity<long>, IMayHaveTenant, ISoftDelete
     {
+        [SugarColumn(IsPrimaryKey = true)]
+        public virtual long Id { get; set; }
+
         /// <summary>
         /// TenantId of this entity.
         /// </summary>

@@ -8,7 +8,7 @@ using Abp.Domain.Entities;
 namespace Abp.Domain.Repositories
 {
     public interface ISupportsExplicitLoading<TEntity, TPrimaryKey>
-        where TEntity : class, IEntity<TPrimaryKey>
+        where TEntity : class
     {
         Task EnsureCollectionLoadedAsync<TProperty>(
             TEntity entity,

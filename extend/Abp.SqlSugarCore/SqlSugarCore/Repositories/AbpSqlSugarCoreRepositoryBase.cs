@@ -148,23 +148,33 @@ namespace Abp.SqlSugarCore.Repositories
             if (typeof(ISoftDelete).IsAssignableFrom(typeof(TEntity)))
             {
                 var tablename = this.GetTableName();//获取表名
-                var pkcolumnname = this.GetPrimaryKeys();//获取主键列名
-                if (pkcolumnname == null || pkcolumnname.Count < 1)
-                {
-                    throw new Exception($"{this.GetTableName()}表没有设置主键!");
-                }
-                else if (pkcolumnname.Count > 1)
-                {
-                    throw new Exception($"{nameof(ISoftDelete)}不支持联合主键删除!");
-                }
-
-                string sql = $"update {tablename} set {nameof(ISoftDelete.IsDeleted)}=@IsDeleted where {pkcolumnname[0]}=@id";
+                var pkcolumnname = this.GetPrimaryKey();//获取主键列名
+                string sql = $"update {tablename} set {nameof(ISoftDelete.IsDeleted)}=@IsDeleted where {pkcolumnname}=@id";
                 _db.Ado.ExecuteCommand(sql, new { id = id, IsDeleted = true });
             }
             else
             {
                 throw new Exception($"{typeof(TEntity).Name}实体类没有继承{nameof(ISoftDelete)},不允许假删除");
             }
+        }
+
+        /// <summary>
+        /// 获取主键列名信息
+        /// </summary>
+        /// <returns></returns>
+        protected string GetPrimaryKey()
+        {
+            var pkcolumnname = this.GetPrimaryKeys();//获取主键列名
+            if (pkcolumnname == null || pkcolumnname.Count < 1)
+            {
+                throw new Exception($"{this.GetTableName()}表没有设置主键!");
+            }
+            else if (pkcolumnname.Count > 1)
+            {
+                throw new Exception($"{nameof(ISoftDelete)}不支持联合主键删除!");
+            }
+
+            return pkcolumnname[0];
         }
 
         /// <summary>
@@ -201,7 +211,8 @@ namespace Abp.SqlSugarCore.Repositories
 
         public override TEntity Update(TEntity entity)
         {
-            throw new System.NotImplementedException();
+            this._db.Updateable<TEntity>(entity).ExecuteCommand();
+            return entity;
         }
     }
 }

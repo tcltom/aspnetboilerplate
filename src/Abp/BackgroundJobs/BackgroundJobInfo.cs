@@ -4,13 +4,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities.Auditing;
 using Abp.MultiTenancy;
 using Abp.Timing;
+using SqlSugar;
 
 namespace Abp.BackgroundJobs
 {
     /// <summary>
     /// Represents a background job info that is used to persist jobs.
     /// </summary>
-    [Table("AbpBackgroundJobs")]
+    [SugarTable("AbpBackgroundJobs")]
     [MultiTenancySide(MultiTenancySides.Host)]
     public class BackgroundJobInfo : CreationAuditedEntity<long>
     {
@@ -30,12 +31,14 @@ namespace Abp.BackgroundJobs
         /// Default duration (as seconds) for the first wait on a failure.
         /// Default value: 60 (1 minutes).
         /// </summary>
+        [SugarColumn(IsIgnore =true)]
         public static int DefaultFirstWaitDuration { get; set; }
 
         /// <summary>
         /// Default timeout value (as seconds) for a job before it's abandoned (<see cref="IsAbandoned"/>).
         /// Default value: 172,800 (2 days).
         /// </summary>
+        [SugarColumn(IsIgnore = true)]
         public static int DefaultTimeout { get; set; }
 
         /// <summary>
@@ -43,8 +46,10 @@ namespace Abp.BackgroundJobs
         /// This amount is multiplated by last wait time to calculate next wait time.
         /// Default value: 2.0.
         /// </summary>
+        [SugarColumn(IsIgnore = true)]
         public static double DefaultWaitFactor { get; set; }
 
+        [SugarColumn(IsPrimaryKey = true)]
         public virtual long Id { get; set; }
 
         /// <summary>

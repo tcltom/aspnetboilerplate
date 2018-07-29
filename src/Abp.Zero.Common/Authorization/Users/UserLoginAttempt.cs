@@ -5,13 +5,14 @@ using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
 using Abp.MultiTenancy;
 using Abp.Timing;
+using SqlSugar;
 
 namespace Abp.Authorization.Users
 {
     /// <summary>
     /// Used to save a login attempt of a user.
     /// </summary>
-    [Table("AbpUserLoginAttempts")]
+    [SugarTable("AbpUserLoginAttempts")]
     public class UserLoginAttempt : Entity<long>, IHasCreationTime, IMayHaveTenant
     {
         /// <summary>
@@ -38,6 +39,9 @@ namespace Abp.Authorization.Users
         /// Maximum length of <see cref="BrowserInfo"/> property.
         /// </summary>
         public const int MaxBrowserInfoLength = 512;
+
+        [SugarColumn(IsPrimaryKey = true,IsIdentity =true)]
+        public virtual long Id { get; set; }
 
         /// <summary>
         /// Tenant's Id, if <see cref="TenancyName"/> was a valid tenant name.

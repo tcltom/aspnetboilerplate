@@ -7,13 +7,14 @@ using Abp.Collections.Extensions;
 using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
 using Abp.Extensions;
+using SqlSugar;
 
 namespace Abp.Organizations
 {
     /// <summary>
     /// Represents an organization unit (OU).
     /// </summary>
-    [Table("AbpOrganizationUnits")]
+    [SugarTable("AbpOrganizationUnits")]
     public class OrganizationUnit : FullAuditedEntity<long>, IMayHaveTenant
     {
         /// <summary>
@@ -36,6 +37,7 @@ namespace Abp.Organizations
         /// </summary>
         public const int MaxCodeLength = MaxDepth * (CodeUnitLength + 1) - 1;
 
+        [SugarColumn(IsPrimaryKey = true)]
         public virtual long Id { get; set; }
 
         /// <summary>

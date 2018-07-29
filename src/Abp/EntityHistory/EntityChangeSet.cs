@@ -1,5 +1,6 @@
 ﻿using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
+using SqlSugar;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -7,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Abp.EntityHistory
 {
-    [Table("AbpEntityChangeSets")]
+    [SugarTable("AbpEntityChangeSets")]
     public class EntityChangeSet : Entity<long>, IHasCreationTime, IMayHaveTenant, IExtendableObject
     {
         /// <summary>
@@ -29,6 +30,9 @@ namespace Abp.EntityHistory
         /// Maximum length of <see cref="Reason"/> property.
         /// </summary>
         public const int MaxReasonLength = 256;
+
+        [SugarColumn(IsPrimaryKey = true)]
+        public virtual long Id { get; set; }
 
         /// <summary>
         /// Browser information if this entity is changed in a web request.

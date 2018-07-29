@@ -2,13 +2,14 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities;
 using JetBrains.Annotations;
+using SqlSugar;
 
 namespace Abp.Authorization.Users
 {
     /// <summary>
     /// Represents an authentication token for a user.
     /// </summary>
-    [Table("AbpUserTokens")]
+    [SugarTable("AbpUserTokens")]
     public class UserToken : Entity<long>, IMayHaveTenant
     {
         /// <summary>
@@ -25,6 +26,9 @@ namespace Abp.Authorization.Users
         /// Maximum length of the <see cref="Value"/> property.
         /// </summary>
         public const int MaxValueLength = 512;
+
+        [SugarColumn(IsPrimaryKey = true)]
+        public virtual long Id { get; set; }
 
         public virtual int? TenantId { get; set; }
 

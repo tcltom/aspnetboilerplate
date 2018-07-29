@@ -2,19 +2,23 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
+using SqlSugar;
 
 namespace Abp.Authorization
 {
     /// <summary>
     /// Used to grant/deny a permission for a role or user.
     /// </summary>
-    [Table("AbpPermissions")]
+    [SugarTable("AbpPermissions")]
     public abstract class PermissionSetting : CreationAuditedEntity<long>, IMayHaveTenant
     {
         /// <summary>
         /// Maximum length of the <see cref="Name"/> field.
         /// </summary>
         public const int MaxNameLength = 128;
+
+        [SugarColumn(IsPrimaryKey = true)]
+        public virtual long Id { get; set; }
 
         public virtual int? TenantId { get; set; }
 

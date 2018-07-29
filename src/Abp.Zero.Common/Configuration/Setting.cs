@@ -2,13 +2,14 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
+using SqlSugar;
 
 namespace Abp.Configuration
 {
     /// <summary>
     /// Represents a setting for a tenant or user.
     /// </summary>
-    [Table("AbpSettings")]
+    [SugarTable("AbpSettings")]
     public class Setting : AuditedEntity<long>, IMayHaveTenant
     {
         /// <summary>
@@ -20,6 +21,9 @@ namespace Abp.Configuration
         /// Maximum length of the <see cref="Value"/> property.
         /// </summary>
         public const int MaxValueLength = 2000;
+
+        [SugarColumn(IsPrimaryKey = true)]
+        public virtual long Id { get; set; }
 
         /// <summary>
         /// TenantId for this setting.

@@ -1,13 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities;
+using SqlSugar;
 
 namespace Abp.Authorization.Users
 {
     /// <summary>
     /// Used to store a User Login for external Login services.
     /// </summary>
-    [Table("AbpUserLogins")]
+    [SugarTable("AbpUserLogins")]
     public class UserLogin : Entity<long>, IMayHaveTenant
     {
         /// <summary>
@@ -19,6 +20,9 @@ namespace Abp.Authorization.Users
         /// Maximum length of <see cref="ProviderKey"/> property.
         /// </summary>
         public const int MaxProviderKeyLength = 256;
+
+        [SugarColumn(IsPrimaryKey = true)]
+        public virtual long Id { get; set; }
 
         public virtual int? TenantId { get; set; }
 

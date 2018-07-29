@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Authorization.Users;
 using Abp.Domain.Entities.Auditing;
+using SqlSugar;
 
 namespace Abp.Authorization.Roles
 {
@@ -36,6 +37,7 @@ namespace Abp.Authorization.Roles
         /// Claims of this user.
         /// </summary>
         [ForeignKey("RoleId")]
+        [SugarColumn(IsIgnore = true)]
         public virtual ICollection<RoleClaim> Claims { get; set; }
 
         /// <summary>
@@ -44,10 +46,13 @@ namespace Abp.Authorization.Roles
         [StringLength(MaxConcurrencyStampLength)]
         public virtual string ConcurrencyStamp { get; set; } = Guid.NewGuid().ToString();
 
+        [SugarColumn(IsIgnore =true)]
         public virtual TUser DeleterUser { get; set; }
 
+        [SugarColumn(IsIgnore = true)]
         public virtual TUser CreatorUser { get; set; }
 
+        [SugarColumn(IsIgnore = true)]
         public virtual TUser LastModifierUser { get; set; }
 
         protected AbpRole()

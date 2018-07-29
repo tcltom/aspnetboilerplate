@@ -3,13 +3,14 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities.Auditing;
 using Abp.MultiTenancy;
+using SqlSugar;
 
 namespace Abp.Application.Editions
 {
     /// <summary>
     /// Represents an edition of the application.
     /// </summary>
-    [Table("AbpEditions")]
+    [SugarTable("AbpEditions")]
     [MultiTenancySide(MultiTenancySides.Host)]
     public class Edition : FullAuditedEntity
     {
@@ -23,6 +24,7 @@ namespace Abp.Application.Editions
         /// </summary>
         public const int MaxDisplayNameLength = 64;
 
+        [SugarColumn(IsPrimaryKey = true)]
         public virtual int Id { get; set; }
 
         /// <summary>

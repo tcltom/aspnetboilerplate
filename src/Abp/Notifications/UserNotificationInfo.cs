@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
 using Abp.Timing;
+using SqlSugar;
 
 namespace Abp.Notifications
 {
@@ -11,9 +12,10 @@ namespace Abp.Notifications
     /// Used to store a user notification.
     /// </summary>
     [Serializable]
-    [Table("AbpUserNotifications")]
+    [SugarTable("AbpUserNotifications")]
     public class UserNotificationInfo : Entity<Guid>, IHasCreationTime, IMayHaveTenant
     {
+        [SugarColumn(IsPrimaryKey = true)]
         public virtual Guid Id { get; set; }
 
         /// <summary>

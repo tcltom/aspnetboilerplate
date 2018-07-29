@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities.Auditing;
 using Abp.MultiTenancy;
+using SqlSugar;
 
 namespace Abp.Notifications
 {
@@ -11,7 +12,7 @@ namespace Abp.Notifications
     /// This notification is distributed to tenants and users by <see cref="INotificationDistributer"/>.
     /// </summary>
     [Serializable]
-    [Table("AbpNotifications")]
+    [SugarTable("AbpNotifications")]
     [MultiTenancySide(MultiTenancySides.Host)]
     public class NotificationInfo : CreationAuditedEntity<Guid>
     {
@@ -69,6 +70,7 @@ namespace Abp.Notifications
         /// </summary>
         public const int MaxTenantIdsLength = 128 * 1024;
 
+        [SugarColumn(IsPrimaryKey = true)]
         public virtual Guid Id { get; set; }
 
         /// <summary>

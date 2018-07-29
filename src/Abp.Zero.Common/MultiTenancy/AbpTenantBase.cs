@@ -3,13 +3,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
 using Abp.Runtime.Security;
+using SqlSugar;
 
 namespace Abp.MultiTenancy
 {
     /// <summary>
     /// Base class for tenants.
     /// </summary>
-    [Table("AbpTenants")]
+    [SugarTable("AbpTenants")]
     [MultiTenancySide(MultiTenancySides.Host)]
     public abstract class AbpTenantBase : FullAuditedEntity<int>, IPassivable
     {
@@ -38,6 +39,7 @@ namespace Abp.MultiTenancy
         /// </summary>
         public const int MaxNameLength = 128;
 
+        [SugarColumn(IsPrimaryKey = true)]
         public virtual int Id { get; set; }
 
         /// <summary>

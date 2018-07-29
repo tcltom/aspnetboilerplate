@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
+using SqlSugar;
 
 namespace Abp.Localization
 {
@@ -10,12 +11,15 @@ namespace Abp.Localization
     /// Used to store a localization text.
     /// </summary>
     [Serializable]
-    [Table("AbpLanguageTexts")]
+    [SugarTable("AbpLanguageTexts")]
     public class ApplicationLanguageText : AuditedEntity<long>, IMayHaveTenant
     {
         public const int MaxSourceNameLength = 128;
         public const int MaxKeyLength = 256;
         public const int MaxValueLength = 64 * 1024 * 1024; //64KB
+
+        [SugarColumn(IsPrimaryKey = true)]
+        public virtual long Id { get; set; }
 
         /// <summary>
         /// TenantId of this entity. Can be null for host.

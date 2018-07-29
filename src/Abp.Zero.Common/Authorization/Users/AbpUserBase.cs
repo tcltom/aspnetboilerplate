@@ -6,13 +6,14 @@ using Abp.Configuration;
 using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
 using Abp.Extensions;
+using SqlSugar;
 
 namespace Abp.Authorization.Users
 {
     /// <summary>
     /// Base class for user.
     /// </summary>
-    [Table("AbpUsers")]
+    [SugarTable("AbpUsers")]
     public abstract class AbpUserBase : FullAuditedEntity<long>, IMayHaveTenant, IPassivable
     {
         /// <summary>
@@ -76,6 +77,7 @@ namespace Abp.Authorization.Users
         /// </summary>
         public const int MaxSecurityStampLength = 128;
 
+        [SugarColumn(IsPrimaryKey = true)]
         public virtual long Id { get; set; }
 
         /// <summary>
@@ -125,6 +127,7 @@ namespace Abp.Authorization.Users
         /// Return full name (Name Surname )
         /// </summary>
         [NotMapped]
+        [SugarColumn(IsIgnore = true)]
         public virtual string FullName { get { return this.Name + " " + this.Surname; } }
 
         /// <summary>
@@ -189,30 +192,35 @@ namespace Abp.Authorization.Users
         /// Login definitions for this user.
         /// </summary>
         [ForeignKey("UserId")]
+        [SugarColumn(IsIgnore = true)]
         public virtual ICollection<UserLogin> Logins { get; set; }
 
         /// <summary>
         /// Roles of this user.
         /// </summary>
         [ForeignKey("UserId")]
+        [SugarColumn(IsIgnore = true)]
         public virtual ICollection<UserRole> Roles { get; set; }
 
         /// <summary>
         /// Claims of this user.
         /// </summary>
         [ForeignKey("UserId")]
+        [SugarColumn(IsIgnore = true)]
         public virtual ICollection<UserClaim> Claims { get; set; }
 
         /// <summary>
         /// Permission definitions for this user.
         /// </summary>
         [ForeignKey("UserId")]
+        [SugarColumn(IsIgnore = true)]
         public virtual ICollection<UserPermissionSetting> Permissions { get; set; }
 
         /// <summary>
         /// Settings for this user.
         /// </summary>
         [ForeignKey("UserId")]
+        [SugarColumn(IsIgnore = true)]
         public virtual ICollection<Setting> Settings { get; set; }
 
         /// <summary>

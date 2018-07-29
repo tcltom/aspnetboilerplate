@@ -1,12 +1,14 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities;
+using SqlSugar;
 
 namespace Abp.IdentityServer4
 {
-    [Table("AbpPersistedGrants")]
+    [SugarTable("AbpPersistedGrants")]
     public class PersistedGrantEntity : Entity<string>
     {
+        [SugarColumn(IsPrimaryKey = true)]
         public virtual string Id { get; set; }
         public virtual string Type { get; set; }
 

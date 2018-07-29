@@ -4,15 +4,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
 using Abp.Json;
+using SqlSugar;
 
 namespace Abp.Notifications
 {
     /// <summary>
     /// Used to store a notification subscription.
     /// </summary>
-    [Table("AbpNotificationSubscriptions")]
+    [SugarTable("AbpNotificationSubscriptions")]
     public class NotificationSubscriptionInfo : CreationAuditedEntity<Guid>, IMayHaveTenant
     {
+        [SugarColumn(IsPrimaryKey = true)]
         public virtual Guid Id { get; set; }
 
         /// <summary>
