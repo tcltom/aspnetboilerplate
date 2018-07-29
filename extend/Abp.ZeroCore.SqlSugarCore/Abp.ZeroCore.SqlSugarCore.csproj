@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="EntityHistory\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Abp.ZeroCore\Abp.ZeroCore.csproj" />
+    <ProjectReference Include="..\..\src\Abp\Abp.csproj" />
+    <ProjectReference Include="..\Abp.SqlSugarCore\Abp.SqlSugarCore.csproj" />
+  </ItemGroup>
+
+</Project>

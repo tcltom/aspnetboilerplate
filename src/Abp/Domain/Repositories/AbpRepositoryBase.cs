@@ -20,7 +20,7 @@ namespace Abp.Domain.Repositories
     /// <typeparam name="TEntity">Type of the Entity for this repository</typeparam>
     /// <typeparam name="TPrimaryKey">Primary key of the entity</typeparam>
     public abstract class AbpRepositoryBase<TEntity, TPrimaryKey> : IRepository<TEntity, TPrimaryKey>
-        where TEntity : class, IEntity<TPrimaryKey>
+        where TEntity : class
     {
         /// <summary>
         /// The multi tenancy side
@@ -272,6 +272,15 @@ namespace Abp.Domain.Repositories
                 );
 
             return Expression.Lambda<Func<TEntity, bool>>(lambdaBody, lambdaParam);
+        }
+
+        /// <summary>
+        /// ¸ù¾ÝÖ÷¼ü¼ÙÉ¾³ý
+        /// </summary>
+        /// <param name="id"></param>
+        public virtual void SoftDelete(TPrimaryKey id)
+        {
+
         }
 
         /// <summary>
