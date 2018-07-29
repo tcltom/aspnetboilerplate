@@ -5,6 +5,7 @@ using Abp.Authorization.Users;
 using Abp.Dependency;
 using Abp.Domain.Repositories;
 using Microsoft.AspNet.Identity;
+using SqlSugar;
 
 namespace Abp.Authorization.Roles
 {
@@ -39,7 +40,7 @@ namespace Abp.Authorization.Roles
 
         public virtual IQueryable<TRole> Roles
         {
-            get { return _roleRepository.GetAll(); }
+            get { return _roleRepository.GetAll().ToList().AsQueryable(); }//(tcl.update)
         }
 
         public virtual async Task CreateAsync(TRole role)

@@ -45,6 +45,8 @@ namespace Abp.BackgroundJobs
         /// </summary>
         public static double DefaultWaitFactor { get; set; }
 
+        public virtual long Id { get; set; }
+
         /// <summary>
         /// Type of the job.
         /// It's AssemblyQualifiedName of job type.

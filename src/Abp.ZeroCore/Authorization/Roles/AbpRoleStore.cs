@@ -44,7 +44,7 @@ namespace Abp.Authorization.Roles
         /// </value>
         public bool AutoSaveChanges { get; set; } = true;
 
-        public IQueryable<TRole> Roles => _roleRepository.GetAll();
+        public IQueryable<TRole> Roles => _roleRepository.GetAll().ToList().AsQueryable();//(tcl.update)
 
         private readonly IRepository<TRole> _roleRepository;
         private readonly IUnitOfWorkManager _unitOfWorkManager;

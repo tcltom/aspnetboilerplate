@@ -14,6 +14,8 @@ namespace Abp.Notifications
     [Table("AbpUserNotifications")]
     public class UserNotificationInfo : Entity<Guid>, IHasCreationTime, IMayHaveTenant
     {
+        public virtual Guid Id { get; set; }
+
         /// <summary>
         /// Tenant Id.
         /// </summary>

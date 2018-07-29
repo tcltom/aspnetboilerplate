@@ -190,12 +190,13 @@ namespace Abp.Application.Features
 
         public virtual void HandleEvent(EntityChangedEventData<Edition> eventData)
         {
-            if (eventData.Entity.IsTransient())
-            {
-                return;
-            }
+            //(tcl.remove)
+            //if (eventData.Entity.IsTransient())
+            //{
+            //    return;
+            //}
 
-            _cacheManager.GetEditionFeatureCache().Remove(eventData.Entity.Id);
+            //_cacheManager.GetEditionFeatureCache().Remove(eventData.Entity.Id);
         }
     }
 }

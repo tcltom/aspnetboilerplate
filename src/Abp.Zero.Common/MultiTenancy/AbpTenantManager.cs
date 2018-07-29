@@ -16,6 +16,7 @@ using Abp.Localization;
 using Abp.Runtime.Caching;
 using Abp.UI;
 using Abp.Zero;
+using SqlSugar;
 
 namespace Abp.MultiTenancy
 {
@@ -63,7 +64,7 @@ namespace Abp.MultiTenancy
             LocalizationSourceName = AbpZeroConsts.LocalizationSourceName;
         }
 
-        public virtual IQueryable<TTenant> Tenants { get { return TenantRepository.GetAll(); } }
+        public virtual ISugarQueryable<TTenant> Tenants { get { return TenantRepository.GetAll(); } }
 
         public virtual async Task CreateAsync(TTenant tenant)
         {
@@ -245,12 +246,13 @@ namespace Abp.MultiTenancy
 
         public void HandleEvent(EntityChangedEventData<TTenant> eventData)
         {
-            if (eventData.Entity.IsTransient())
-            {
-                return;
-            }
+            //(tcl.remove)
+            //if (eventData.Entity.IsTransient())
+            //{
+            //    return;
+            //}
 
-            CacheManager.GetTenantFeatureCache().Remove(eventData.Entity.Id);
+            //CacheManager.GetTenantFeatureCache().Remove(eventData.Entity.Id);
         }
 
         [UnitOfWork]

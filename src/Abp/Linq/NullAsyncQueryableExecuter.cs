@@ -1,3 +1,4 @@
+using SqlSugar;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,19 +9,19 @@ namespace Abp.Linq
     {
         public static NullAsyncQueryableExecuter Instance { get; } = new NullAsyncQueryableExecuter();
 
-        public Task<int> CountAsync<T>(IQueryable<T> queryable)
+        public Task<int> CountAsync<T>(ISugarQueryable<T> queryable)
         {
             return Task.FromResult(queryable.Count());
         }
 
-        public Task<List<T>> ToListAsync<T>(IQueryable<T> queryable)
+        public Task<List<T>> ToListAsync<T>(ISugarQueryable<T> queryable)
         {
             return Task.FromResult(queryable.ToList());
         }
 
-        public Task<T> FirstOrDefaultAsync<T>(IQueryable<T> queryable)
+        public Task<T> FirstOrDefaultAsync<T>(ISugarQueryable<T> queryable)
         {
-            return Task.FromResult(queryable.FirstOrDefault());
+            return Task.FromResult(queryable.First());
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Abp.Domain.Entities;
 using Abp.Domain.Uow;
+using SqlSugar;
 
 namespace Abp.Domain.Repositories
 {
@@ -18,18 +19,18 @@ namespace Abp.Domain.Repositories
         #region Select/Get/Query
 
         /// <summary>
-        /// Used to get a IQueryable that is used to retrieve entities from entire table.
+        /// Used to get a ISugarQueryable that is used to retrieve entities from entire table.
         /// </summary>
-        /// <returns>IQueryable to be used to select entities from database</returns>
-        IQueryable<TEntity> GetAll();
+        /// <returns>ISugarQueryable to be used to select entities from database</returns>
+        ISugarQueryable<TEntity> GetAll();
 
         /// <summary>
-        /// Used to get a IQueryable that is used to retrieve entities from entire table.
+        /// Used to get a ISugarQueryable that is used to retrieve entities from entire table.
         /// One or more 
         /// </summary>
         /// <param name="propertySelectors">A list of include expressions.</param>
-        /// <returns>IQueryable to be used to select entities from database</returns>
-        IQueryable<TEntity> GetAllIncluding(params Expression<Func<TEntity, object>>[] propertySelectors);
+        /// <returns>ISugarQueryable to be used to select entities from database</returns>
+        ISugarQueryable<TEntity> GetAllIncluding(params Expression<Func<TEntity, object>>[] propertySelectors);
 
         /// <summary>
         /// Used to get all entities.
@@ -60,12 +61,12 @@ namespace Abp.Domain.Repositories
         /// <summary>
         /// Used to run a query over entire entities.
         /// <see cref="UnitOfWorkAttribute"/> attribute is not always necessary (as opposite to <see cref="GetAll"/>)
-        /// if <paramref name="queryMethod"/> finishes IQueryable with ToList, FirstOrDefault etc..
+        /// if <paramref name="queryMethod"/> finishes ISugarQueryable with ToList, FirstOrDefault etc..
         /// </summary>
         /// <typeparam name="T">Type of return value of this method</typeparam>
         /// <param name="queryMethod">This method is used to query over entities</param>
         /// <returns>Query result</returns>
-        T Query<T>(Func<IQueryable<TEntity>, T> queryMethod);
+        T Query<T>(Func<ISugarQueryable<TEntity>, T> queryMethod);
 
         /// <summary>
         /// Gets an entity with given primary key.

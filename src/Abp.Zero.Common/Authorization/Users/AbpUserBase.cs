@@ -76,6 +76,8 @@ namespace Abp.Authorization.Users
         /// </summary>
         public const int MaxSecurityStampLength = 128;
 
+        public virtual long Id { get; set; }
+
         /// <summary>
         /// Authorization source name.
         /// It's set to external authentication source name if created by an external source.

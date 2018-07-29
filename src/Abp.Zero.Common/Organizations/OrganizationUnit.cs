@@ -36,6 +36,8 @@ namespace Abp.Organizations
         /// </summary>
         public const int MaxCodeLength = MaxDepth * (CodeUnitLength + 1) - 1;
 
+        public virtual long Id { get; set; }
+
         /// <summary>
         /// TenantId of this entity.
         /// </summary>

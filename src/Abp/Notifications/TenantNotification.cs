@@ -11,6 +11,7 @@ namespace Abp.Notifications
     [Serializable]
     public class TenantNotification : EntityDto<Guid>, IHasCreationTime
     {
+
         /// <summary>
         /// Tenant Id.
         /// </summary>

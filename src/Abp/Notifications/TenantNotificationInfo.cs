@@ -12,6 +12,8 @@ namespace Abp.Notifications
     [Table("AbpTenantNotifications")]
     public class TenantNotificationInfo : CreationAuditedEntity<Guid>, IMayHaveTenant
     {
+        public virtual Guid Id { get; set; }
+
         /// <summary>
         /// Tenant id of the subscribed user.
         /// </summary>

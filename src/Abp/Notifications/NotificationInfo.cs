@@ -69,6 +69,8 @@ namespace Abp.Notifications
         /// </summary>
         public const int MaxTenantIdsLength = 128 * 1024;
 
+        public virtual Guid Id { get; set; }
+
         /// <summary>
         /// Unique notification name.
         /// </summary>

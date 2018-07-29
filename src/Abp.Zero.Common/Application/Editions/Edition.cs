@@ -23,6 +23,8 @@ namespace Abp.Application.Editions
         /// </summary>
         public const int MaxDisplayNameLength = 64;
 
+        public virtual int Id { get; set; }
+
         /// <summary>
         /// Unique name of this edition.
         /// </summary>

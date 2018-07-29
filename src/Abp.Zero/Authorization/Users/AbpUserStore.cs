@@ -70,7 +70,7 @@ namespace Abp.Authorization.Users
 
         #region IQueryableUserStore
 
-        public virtual IQueryable<TUser> Users => _userRepository.GetAll();
+        public virtual IQueryable<TUser> Users => _userRepository.GetAll().ToList().AsQueryable();//(tcl.update)
 
         #endregion
 
@@ -232,24 +232,28 @@ namespace Abp.Authorization.Users
         [UnitOfWork]
         public virtual Task<List<TUser>> FindAllAsync(UserLoginInfo login)
         {
-            var query = from userLogin in _userLoginRepository.GetAll()
-                        join user in _userRepository.GetAll() on userLogin.UserId equals user.Id
-                        where userLogin.LoginProvider == login.LoginProvider && userLogin.ProviderKey == login.ProviderKey
-                        select user;
+            //(tcl.remove)
+            //var query = from userLogin in _userLoginRepository.GetAll()
+            //            join user in _userRepository.GetAll() on userLogin.UserId equals user.Id
+            //            where userLogin.LoginProvider == login.LoginProvider && userLogin.ProviderKey == login.ProviderKey
+            //            select user;
 
-            return Task.FromResult(query.ToList());
+            //return Task.FromResult(query.ToList());
+            return null;
         }
 
         public virtual Task<TUser> FindAsync(int? tenantId, UserLoginInfo login)
         {
             using (_unitOfWorkManager.Current.SetTenantId(tenantId))
             {
-                var query = from userLogin in _userLoginRepository.GetAll()
-                            join user in _userRepository.GetAll() on userLogin.UserId equals user.Id
-                            where userLogin.LoginProvider == login.LoginProvider && userLogin.ProviderKey == login.ProviderKey
-                            select user;
+                //(tcl.remove)
+                //var query = from userLogin in _userLoginRepository.GetAll()
+                //            join user in _userRepository.GetAll() on userLogin.UserId equals user.Id
+                //            where userLogin.LoginProvider == login.LoginProvider && userLogin.ProviderKey == login.ProviderKey
+                //            select user;
 
-                return Task.FromResult(query.FirstOrDefault());
+                //return Task.FromResult(query.FirstOrDefault());
+                return null;
             }
         }
 
@@ -278,12 +282,14 @@ namespace Abp.Authorization.Users
         [UnitOfWork]
         public virtual async Task<IList<string>> GetRolesAsync(TUser user)
         {
-            var query = from userRole in _userRoleRepository.GetAll()
-                        join role in _roleRepository.GetAll() on userRole.RoleId equals role.Id
-                        where userRole.UserId == user.Id
-                        select role.Name;
+            //(tcl.remove)
+            //var query = from userRole in _userRoleRepository.GetAll()
+            //            join role in _roleRepository.GetAll() on userRole.RoleId equals role.Id
+            //            where userRole.UserId == user.Id
+            //            select role.Name;
 
-            return await AsyncQueryableExecuter.ToListAsync(query);
+            //return await AsyncQueryableExecuter.ToListAsync(query);
+            return null;
         }
 
         public virtual async Task<bool> IsInRoleAsync(TUser user, string roleName)

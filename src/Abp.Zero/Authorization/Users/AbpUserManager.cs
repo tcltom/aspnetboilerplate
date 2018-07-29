@@ -546,12 +546,14 @@ namespace Abp.Authorization.Users
         [UnitOfWork]
         public virtual Task<List<OrganizationUnit>> GetOrganizationUnitsAsync(TUser user)
         {
-            var query = from uou in _userOrganizationUnitRepository.GetAll()
-                        join ou in _organizationUnitRepository.GetAll() on uou.OrganizationUnitId equals ou.Id
-                        where uou.UserId == user.Id
-                        select ou;
+            //(tcl.remove)
+            //var query = from uou in _userOrganizationUnitRepository.GetAll()
+            //            join ou in _organizationUnitRepository.GetAll() on uou.OrganizationUnitId equals ou.Id
+            //            where uou.UserId == user.Id
+            //            select ou;
 
-            return Task.FromResult(query.ToList());
+            //return Task.FromResult(query.ToList());
+            return null;
         }
 
         [UnitOfWork]
@@ -559,22 +561,26 @@ namespace Abp.Authorization.Users
         {
             if (!includeChildren)
             {
-                var query = from uou in _userOrganizationUnitRepository.GetAll()
-                            join user in AbpStore.Users on uou.UserId equals user.Id
-                            where uou.OrganizationUnitId == organizationUnit.Id
-                            select user;
+                //(tcl.remove)
+                //var query = from uou in _userOrganizationUnitRepository.GetAll()
+                //            join user in AbpStore.Users on uou.UserId equals user.Id
+                //            where uou.OrganizationUnitId == organizationUnit.Id
+                //            select user;
 
-                return Task.FromResult(query.ToList());
+                //return Task.FromResult(query.ToList());
+                return null;
             }
             else
             {
-                var query = from uou in _userOrganizationUnitRepository.GetAll()
-                            join user in AbpStore.Users on uou.UserId equals user.Id
-                            join ou in _organizationUnitRepository.GetAll() on uou.OrganizationUnitId equals ou.Id
-                            where ou.Code.StartsWith(organizationUnit.Code)
-                            select user;
+                //(tcl.remove)
+                //var query = from uou in _userOrganizationUnitRepository.GetAll()
+                //            join user in AbpStore.Users on uou.UserId equals user.Id
+                //            join ou in _organizationUnitRepository.GetAll() on uou.OrganizationUnitId equals ou.Id
+                //            where ou.Code.StartsWith(organizationUnit.Code)
+                //            select user;
 
-                return Task.FromResult(query.ToList());
+                //return Task.FromResult(query.ToList());
+                return null;
             }
         }
 

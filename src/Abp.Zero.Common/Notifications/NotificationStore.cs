@@ -210,19 +210,21 @@ namespace Abp.Notifications
         {
             using (_unitOfWorkManager.Current.SetTenantId(user.TenantId))
             {
-                var query = from userNotificationInfo in _userNotificationRepository.GetAll()
-                            join tenantNotificationInfo in _tenantNotificationRepository.GetAll() on userNotificationInfo.TenantNotificationId equals tenantNotificationInfo.Id
-                            where userNotificationInfo.UserId == user.UserId && (state == null || userNotificationInfo.State == state.Value)
-                            orderby tenantNotificationInfo.CreationTime descending
-                            select new { userNotificationInfo, tenantNotificationInfo = tenantNotificationInfo };
+                ////(tcl.remove)
+                //var query = from userNotificationInfo in _userNotificationRepository.GetAll()
+                //            join tenantNotificationInfo in _tenantNotificationRepository.GetAll() on userNotificationInfo.TenantNotificationId equals tenantNotificationInfo.Id
+                //            where userNotificationInfo.UserId == user.UserId && (state == null || userNotificationInfo.State == state.Value)
+                //            orderby tenantNotificationInfo.CreationTime descending
+                //            select new { userNotificationInfo, tenantNotificationInfo = tenantNotificationInfo };
 
-                query = query.PageBy(skipCount, maxResultCount);
+                //query = query.PageBy(skipCount, maxResultCount);
 
-                var list = query.ToList();
+                //var list = query.ToList();
 
-                return Task.FromResult(list.Select(
-                    a => new UserNotificationInfoWithNotificationInfo(a.userNotificationInfo, a.tenantNotificationInfo)
-                    ).ToList());
+                //return Task.FromResult(list.Select(
+                //    a => new UserNotificationInfoWithNotificationInfo(a.userNotificationInfo, a.tenantNotificationInfo)
+                //    ).ToList());
+                return null;
             }
         }
 
@@ -240,18 +242,20 @@ namespace Abp.Notifications
         {
             using (_unitOfWorkManager.Current.SetTenantId(tenantId))
             {
-                var query = from userNotificationInfo in _userNotificationRepository.GetAll()
-                            join tenantNotificationInfo in _tenantNotificationRepository.GetAll() on userNotificationInfo.TenantNotificationId equals tenantNotificationInfo.Id
-                            where userNotificationInfo.Id == userNotificationId
-                            select new { userNotificationInfo, tenantNotificationInfo = tenantNotificationInfo };
+                ////(tcl.remove)
+                //var query = from userNotificationInfo in _userNotificationRepository.GetAll()
+                //            join tenantNotificationInfo in _tenantNotificationRepository.GetAll() on userNotificationInfo.TenantNotificationId equals tenantNotificationInfo.Id
+                //            where userNotificationInfo.Id == userNotificationId
+                //            select new { userNotificationInfo, tenantNotificationInfo = tenantNotificationInfo };
 
-                var item = query.FirstOrDefault();
-                if (item == null)
-                {
-                    return Task.FromResult((UserNotificationInfoWithNotificationInfo)null);
-                }
+                //var item = query.FirstOrDefault();
+                //if (item == null)
+                //{
+                //    return Task.FromResult((UserNotificationInfoWithNotificationInfo)null);
+                //}
 
-                return Task.FromResult(new UserNotificationInfoWithNotificationInfo(item.userNotificationInfo, item.tenantNotificationInfo));
+                //return Task.FromResult(new UserNotificationInfoWithNotificationInfo(item.userNotificationInfo, item.tenantNotificationInfo));
+                return null;
             }
         }
 

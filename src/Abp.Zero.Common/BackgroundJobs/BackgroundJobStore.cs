@@ -35,9 +35,9 @@ namespace Abp.BackgroundJobs
         {
             var waitingJobs = _backgroundJobRepository.GetAll()
                 .Where(t => !t.IsAbandoned && t.NextTryTime <= Clock.Now)
-                .OrderByDescending(t => t.Priority)
-                .ThenBy(t => t.TryCount)
-                .ThenBy(t => t.NextTryTime)
+                .OrderBy(t => t.Priority,SqlSugar.OrderByType.Desc)
+                .OrderBy(t => t.TryCount)
+                .OrderBy(t => t.NextTryTime)
                 .Take(maxResultCount)
                 .ToList();
 

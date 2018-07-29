@@ -38,6 +38,8 @@ namespace Abp.MultiTenancy
         /// </summary>
         public const int MaxNameLength = 128;
 
+        public virtual int Id { get; set; }
+
         /// <summary>
         /// Tenancy name. This property is the UNIQUE name of this Tenant.
         /// It can be used as subdomain name in a web application.

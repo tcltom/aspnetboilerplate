@@ -6,6 +6,7 @@ using Abp.Collections.Extensions;
 using Abp.Domain.Repositories;
 using Abp.Domain.Services;
 using Abp.Runtime.Caching;
+using SqlSugar;
 
 namespace Abp.Application.Editions
 {
@@ -13,7 +14,7 @@ namespace Abp.Application.Editions
     {
         private readonly IAbpZeroFeatureValueStore _featureValueStore;
 
-        public IQueryable<Edition> Editions => EditionRepository.GetAll();
+        public ISugarQueryable<Edition> Editions => EditionRepository.GetAll();
 
         public ICacheManager CacheManager { get; set; }
 

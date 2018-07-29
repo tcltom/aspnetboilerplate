@@ -59,7 +59,7 @@ namespace Abp.Authorization.Users
 
         public IAbpSession AbpSession { get; set; }
 
-        public IQueryable<TUser> Users => UserRepository.GetAll();
+        public IQueryable<TUser> Users => UserRepository.GetAll().ToList().AsQueryable();//(tcl.update)
 
         public IRepository<TUser, long> UserRepository { get; }
 
@@ -421,13 +421,14 @@ namespace Abp.Authorization.Users
             cancellationToken.ThrowIfCancellationRequested();
 
             Check.NotNull(user, nameof(user));
+            //(tcl.remove)
+            //var query = from userRole in _userRoleRepository.GetAll()
+            //            join role in _roleRepository.GetAll() on userRole.RoleId equals role.Id
+            //            where userRole.UserId == user.Id
+            //            select role.Name;
 
-            var query = from userRole in _userRoleRepository.GetAll()
-                        join role in _roleRepository.GetAll() on userRole.RoleId equals role.Id
-                        where userRole.UserId == user.Id
-                        select role.Name;
-
-            return await _asyncQueryableExecuter.ToListAsync(query);
+            //return await _asyncQueryableExecuter.ToListAsync(query);
+            return null;
         }
 
         /// <summary>
@@ -630,15 +631,16 @@ namespace Abp.Authorization.Users
 
             Check.NotNull(loginProvider, nameof(loginProvider));
             Check.NotNull(providerKey, nameof(providerKey));
+            //(tcl.remove)
+            //var query = from userLogin in _userLoginRepository.GetAll()
+            //    join user in UserRepository.GetAll() on userLogin.UserId equals user.Id
+            //    where userLogin.LoginProvider == loginProvider &&
+            //          userLogin.ProviderKey == providerKey &&
+            //          userLogin.TenantId == AbpSession.TenantId
+            //    select user;
 
-            var query = from userLogin in _userLoginRepository.GetAll()
-                join user in UserRepository.GetAll() on userLogin.UserId equals user.Id
-                where userLogin.LoginProvider == loginProvider &&
-                      userLogin.ProviderKey == providerKey &&
-                      userLogin.TenantId == AbpSession.TenantId
-                select user;
-
-            return _asyncQueryableExecuter.FirstOrDefaultAsync(query);
+            //return _asyncQueryableExecuter.FirstOrDefaultAsync(query);
+            return null;
         }
 
         /// <summary>
@@ -1044,13 +1046,14 @@ namespace Abp.Authorization.Users
             cancellationToken.ThrowIfCancellationRequested();
 
             Check.NotNull(claim, nameof(claim));
+            //(tcl.remove)
+            //var query = from userclaims in _userClaimRepository.GetAll()
+            //            join user in UserRepository.GetAll() on userclaims.UserId equals user.Id
+            //            where userclaims.ClaimValue == claim.Value && userclaims.ClaimType == claim.Type && userclaims.TenantId == AbpSession.TenantId
+            //            select user;
 
-            var query = from userclaims in _userClaimRepository.GetAll()
-                        join user in UserRepository.GetAll() on userclaims.UserId equals user.Id
-                        where userclaims.ClaimValue == claim.Value && userclaims.ClaimType == claim.Type && userclaims.TenantId == AbpSession.TenantId
-                        select user;
-
-            return await _asyncQueryableExecuter.ToListAsync(query);
+            //return await _asyncQueryableExecuter.ToListAsync(query);
+            return null;
         }
 
         /// <summary>
@@ -1078,12 +1081,14 @@ namespace Abp.Authorization.Users
                 return new List<TUser>();
             }
 
-            var query = from userrole in _userRoleRepository.GetAll()
-                        join user in UserRepository.GetAll() on userrole.UserId equals user.Id
-                        where userrole.RoleId.Equals(role.Id)
-                        select user;
+            //(tcl.remove)
+            //var query = from userrole in _userRoleRepository.GetAll()
+            //            join user in UserRepository.GetAll() on userrole.UserId equals user.Id
+            //            where userrole.RoleId.Equals(role.Id)
+            //            select user;
 
-            return await _asyncQueryableExecuter.ToListAsync(query);
+            //return await _asyncQueryableExecuter.ToListAsync(query);
+            return null;
         }
 
         /// <summary>
@@ -1196,12 +1201,14 @@ namespace Abp.Authorization.Users
         [UnitOfWork]
         public virtual Task<List<TUser>> FindAllAsync(UserLoginInfo login)
         {
-            var query = from userLogin in _userLoginRepository.GetAll()
-                        join user in UserRepository.GetAll() on userLogin.UserId equals user.Id
-                        where userLogin.LoginProvider == login.LoginProvider && userLogin.ProviderKey == login.ProviderKey
-                        select user;
+            //(tcl.remove)
+            //var query = from userLogin in _userLoginRepository.GetAll()
+            //            join user in UserRepository.GetAll() on userLogin.UserId equals user.Id
+            //            where userLogin.LoginProvider == login.LoginProvider && userLogin.ProviderKey == login.ProviderKey
+            //            select user;
 
-            return Task.FromResult(query.ToList());
+            //return Task.FromResult(query.ToList());
+            return null;
         }
 
         [UnitOfWork]
@@ -1209,12 +1216,14 @@ namespace Abp.Authorization.Users
         {
             using (_unitOfWorkManager.Current.SetTenantId(tenantId))
             {
-                var query = from userLogin in _userLoginRepository.GetAll()
-                            join user in UserRepository.GetAll() on userLogin.UserId equals user.Id
-                            where userLogin.LoginProvider == login.LoginProvider && userLogin.ProviderKey == login.ProviderKey
-                            select user;
+                //(tcl.remove)
+                //var query = from userLogin in _userLoginRepository.GetAll()
+                //            join user in UserRepository.GetAll() on userLogin.UserId equals user.Id
+                //            where userLogin.LoginProvider == login.LoginProvider && userLogin.ProviderKey == login.ProviderKey
+                //            select user;
 
-                return Task.FromResult(query.FirstOrDefault());
+                //return Task.FromResult(query.FirstOrDefault());
+                return null;
             }
         }
 

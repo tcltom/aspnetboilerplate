@@ -7,6 +7,7 @@ namespace Abp.IdentityServer4
     [Table("AbpPersistedGrants")]
     public class PersistedGrantEntity : Entity<string>
     {
+        public virtual string Id { get; set; }
         public virtual string Type { get; set; }
 
         public virtual string SubjectId { get; set; }

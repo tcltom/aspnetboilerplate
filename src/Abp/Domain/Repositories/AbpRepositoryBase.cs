@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Threading.Tasks;
 using Abp.Dependency;
 using Abp.Domain.Entities;
 using Abp.Domain.Uow;
 using Abp.MultiTenancy;
 using Abp.Reflection.Extensions;
+using SqlSugar;
 
 namespace Abp.Domain.Repositories
 {
@@ -31,16 +33,16 @@ namespace Abp.Domain.Repositories
 
         static AbpRepositoryBase()
         {
-            var attr = typeof (TEntity).GetSingleAttributeOfTypeOrBaseTypesOrNull<MultiTenancySideAttribute>();
+            var attr = typeof(TEntity).GetSingleAttributeOfTypeOrBaseTypesOrNull<MultiTenancySideAttribute>();
             if (attr != null)
             {
                 MultiTenancySide = attr.Side;
             }
         }
 
-        public abstract IQueryable<TEntity> GetAll();
+        public abstract ISugarQueryable<TEntity> GetAll();
 
-        public virtual IQueryable<TEntity> GetAllIncluding(params Expression<Func<TEntity, object>>[] propertySelectors)
+        public virtual ISugarQueryable<TEntity> GetAllIncluding(params Expression<Func<TEntity, object>>[] propertySelectors)
         {
             return GetAll();
         }
@@ -54,7 +56,7 @@ namespace Abp.Domain.Repositories
         {
             return Task.FromResult(GetAllList());
         }
-        
+
         public virtual List<TEntity> GetAllList(Expression<Func<TEntity, bool>> predicate)
         {
             return GetAll().Where(predicate).ToList();
@@ -65,11 +67,11 @@ namespace Abp.Domain.Repositories
             return Task.FromResult(GetAllList(predicate));
         }
 
-        public virtual T Query<T>(Func<IQueryable<TEntity>, T> queryMethod)
+        public virtual T Query<T>(Func<ISugarQueryable<TEntity>, T> queryMethod)
         {
             return queryMethod(GetAll());
         }
-        
+
         public virtual TEntity Get(TPrimaryKey id)
         {
             var entity = FirstOrDefault(id);
@@ -91,7 +93,7 @@ namespace Abp.Domain.Repositories
 
             return entity;
         }
-        
+
         public virtual TEntity Single(Expression<Func<TEntity, bool>> predicate)
         {
             return GetAll().Single(predicate);
@@ -101,34 +103,34 @@ namespace Abp.Domain.Repositories
         {
             return Task.FromResult(Single(predicate));
         }
-        
+
         public virtual TEntity FirstOrDefault(TPrimaryKey id)
         {
-            return GetAll().FirstOrDefault(CreateEqualityExpressionForId(id));
+            return GetAll().First(CreateEqualityExpressionForId(id));
         }
 
         public virtual Task<TEntity> FirstOrDefaultAsync(TPrimaryKey id)
         {
             return Task.FromResult(FirstOrDefault(id));
         }
-        
+
         public virtual TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate)
         {
-            return GetAll().FirstOrDefault(predicate);
+            return GetAll().First(predicate);
         }
 
         public virtual Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
         {
             return Task.FromResult(FirstOrDefault(predicate));
         }
-        
+
         public virtual TEntity Load(TPrimaryKey id)
         {
             return Get(id);
         }
 
         public abstract TEntity Insert(TEntity entity);
-        
+
         public virtual Task<TEntity> InsertAsync(TEntity entity)
         {
             return Task.FromResult(Insert(entity));
@@ -136,7 +138,8 @@ namespace Abp.Domain.Repositories
 
         public virtual TPrimaryKey InsertAndGetId(TEntity entity)
         {
-            return Insert(entity).Id;
+            var model = Insert(entity);
+            return GetId(model);
         }
 
         public virtual Task<TPrimaryKey> InsertAndGetIdAsync(TEntity entity)
@@ -146,21 +149,21 @@ namespace Abp.Domain.Repositories
 
         public virtual TEntity InsertOrUpdate(TEntity entity)
         {
-            return entity.IsTransient()
+            return IsTransient(entity)
                 ? Insert(entity)
                 : Update(entity);
         }
-        
+
         public virtual async Task<TEntity> InsertOrUpdateAsync(TEntity entity)
         {
-            return entity.IsTransient()
+            return IsTransient(entity)
                 ? await InsertAsync(entity)
                 : await UpdateAsync(entity);
         }
 
         public virtual TPrimaryKey InsertOrUpdateAndGetId(TEntity entity)
         {
-            return InsertOrUpdate(entity).Id;
+            return GetId(InsertOrUpdate(entity));
         }
 
         public virtual Task<TPrimaryKey> InsertOrUpdateAndGetIdAsync(TEntity entity)
@@ -169,7 +172,7 @@ namespace Abp.Domain.Repositories
         }
 
         public abstract TEntity Update(TEntity entity);
-        
+
         public virtual Task<TEntity> UpdateAsync(TEntity entity)
         {
             return Task.FromResult(Update(entity));
@@ -190,7 +193,7 @@ namespace Abp.Domain.Repositories
         }
 
         public abstract void Delete(TEntity entity);
-        
+
         public virtual Task DeleteAsync(TEntity entity)
         {
             Delete(entity);
@@ -198,7 +201,7 @@ namespace Abp.Domain.Repositories
         }
 
         public abstract void Delete(TPrimaryKey id);
-        
+
         public virtual Task DeleteAsync(TPrimaryKey id)
         {
             Delete(id);
@@ -241,7 +244,7 @@ namespace Abp.Domain.Repositories
 
         public virtual long LongCount()
         {
-            return GetAll().LongCount();
+            return GetAll().Count();
         }
 
         public virtual Task<long> LongCountAsync()
@@ -251,7 +254,7 @@ namespace Abp.Domain.Repositories
 
         public virtual long LongCount(Expression<Func<TEntity, bool>> predicate)
         {
-            return GetAll().Where(predicate).LongCount();
+            return GetAll().Where(predicate).Count();
         }
 
         public virtual Task<long> LongCountAsync(Expression<Func<TEntity, bool>> predicate)
@@ -269,6 +272,105 @@ namespace Abp.Domain.Repositories
                 );
 
             return Expression.Lambda<Func<TEntity, bool>>(lambdaBody, lambdaParam);
+        }
+
+        /// <summary>
+        /// 获取主键列名信息
+        /// </summary>
+        /// <returns></returns>
+        protected string GetPrimaryKey(ISugarQueryable<TEntity> query)
+        {
+            var pkcolumnname = this.GetPrimaryKeys(query);//获取主键列名
+            if (pkcolumnname == null || pkcolumnname.Count < 1)
+            {
+                throw new Exception($"{this.GetTableName(query)}表没有设置主键!");
+            }
+            else if (pkcolumnname.Count > 1)
+            {
+                throw new Exception($"不支持联合主键删除!");
+            }
+
+            return pkcolumnname[0];
+        }
+
+        /// <summary>
+        /// 获取主键列名信息
+        /// </summary>
+        /// <returns></returns>
+        protected List<string> GetPrimaryKeys(ISugarQueryable<TEntity> query)
+        {
+            if (query.Context.IsSystemTablesConfig)
+            {
+                return query.Context.DbMaintenance.GetPrimaries(this.GetTableName(query));
+            }
+            else
+            {
+                return query.Context.EntityMaintenance.GetEntityInfo<TEntity>().Columns.Where(it => it.IsPrimarykey).Select(it => it.DbColumnName).ToList();
+            }
+        }
+
+        /// <summary>
+        /// 获取主键列属性信息
+        /// </summary>
+        /// <returns></returns>
+        protected PropertyInfo GetPrimaryProperty(ISugarQueryable<TEntity> query)
+        {
+            var pkproinfo = this.GetPrimaryPropertys(query);//获取主键列名
+            if (pkproinfo == null || pkproinfo.Count < 1)
+            {
+                throw new Exception($"{this.GetTableName(query)}表没有设置主键!");
+            }
+            else if (pkproinfo.Count > 1)
+            {
+                throw new Exception($"不支持联合主键删除!");
+            }
+
+            return pkproinfo[0];
+        }
+
+        /// <summary>
+        /// 获取主键列属性信息
+        /// </summary>
+        /// <returns></returns>
+        protected List<PropertyInfo> GetPrimaryPropertys(ISugarQueryable<TEntity> query)
+        {
+            return query.Context.EntityMaintenance.GetEntityInfo<TEntity>().Columns.Where(it => it.IsPrimarykey).Select(it => it.PropertyInfo).ToList();
+        }
+
+        /// <summary>
+        /// 获取表名
+        /// </summary>
+        /// <returns></returns>
+        protected string GetTableName(ISugarQueryable<TEntity> query)
+        {
+            return query.Context.EntityMaintenance.GetEntityInfo<TEntity>().DbTableName;
+        }
+
+        protected bool IsTransient(TEntity entity)
+        {
+            var Id = GetId(entity);
+            if (EqualityComparer<TPrimaryKey>.Default.Equals(Id, default(TPrimaryKey)))
+            {
+                return true;
+            }
+
+            if (typeof(TPrimaryKey) == typeof(int))
+            {
+                return Convert.ToInt32(Id) <= 0;
+            }
+
+            if (typeof(TPrimaryKey) == typeof(long))
+            {
+                return Convert.ToInt64(Id) <= 0;
+            }
+
+            return false;
+        }
+
+        protected TPrimaryKey GetId(TEntity entity)
+        {
+            var Id = (TPrimaryKey)GetPrimaryProperty(GetAll()).GetValue(entity);
+            return Id;
         }
     }
 }

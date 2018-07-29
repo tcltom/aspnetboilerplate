@@ -28,6 +28,8 @@ namespace Abp.Localization
         /// </summary>
         public const int MaxIconLength = 128;
 
+        public virtual int Id { get; set; }
+
         /// <summary>
         /// TenantId of this entity. Can be null for host.
         /// </summary>

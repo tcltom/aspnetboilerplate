@@ -24,6 +24,8 @@ namespace Abp.Authorization.Roles
         /// </summary>
         public const int MaxNameLength = 32;
 
+        public virtual int Id { get; set; }
+
         /// <summary>
         /// Tenant's Id, if this role is a tenant-level role. Null, if not.
         /// </summary>
