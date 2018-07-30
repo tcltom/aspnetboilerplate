@@ -22,7 +22,7 @@ namespace Abp.Configuration
         /// </summary>
         public const int MaxValueLength = 2000;
 
-        [SugarColumn(IsPrimaryKey = true)]
+        [SugarColumn(IsPrimaryKey = true,IsIdentity =true)]
         public virtual long Id { get; set; }
 
         /// <summary>

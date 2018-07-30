@@ -31,7 +31,8 @@ namespace tcl.MetadataManageTool.Authorization.Users
             IUnitOfWorkManager unitOfWorkManager, 
             ICacheManager cacheManager, 
             IRepository<OrganizationUnit, long> organizationUnitRepository, 
-            IRepository<UserOrganizationUnit, long> userOrganizationUnitRepository, 
+            IRepository<UserOrganizationUnit, long> userOrganizationUnitRepository,
+             IRepository<UserRole> userRoleRepository,
             IOrganizationUnitSettings organizationUnitSettings, 
             ISettingManager settingManager)
             : base(
@@ -49,7 +50,8 @@ namespace tcl.MetadataManageTool.Authorization.Users
                 unitOfWorkManager, 
                 cacheManager,
                 organizationUnitRepository, 
-                userOrganizationUnitRepository, 
+                userOrganizationUnitRepository,
+                userRoleRepository,
                 organizationUnitSettings, 
                 settingManager)
         {

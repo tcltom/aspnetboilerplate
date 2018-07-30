@@ -64,6 +64,7 @@ namespace Abp.Authorization.Users
         private readonly ICacheManager _cacheManager;
         private readonly IRepository<OrganizationUnit, long> _organizationUnitRepository;
         private readonly IRepository<UserOrganizationUnit, long> _userOrganizationUnitRepository;
+        private readonly IRepository<UserRole> _userRoleRepository;
         private readonly IOrganizationUnitSettings _organizationUnitSettings;
         private readonly ISettingManager _settingManager;
         private readonly IOptions<IdentityOptions> _optionsAccessor;
@@ -84,6 +85,7 @@ namespace Abp.Authorization.Users
             ICacheManager cacheManager,
             IRepository<OrganizationUnit, long> organizationUnitRepository,
             IRepository<UserOrganizationUnit, long> userOrganizationUnitRepository,
+            IRepository<UserRole> userRoleRepository,
             IOrganizationUnitSettings organizationUnitSettings,
             ISettingManager settingManager)
             : base(
@@ -102,6 +104,7 @@ namespace Abp.Authorization.Users
             _cacheManager = cacheManager;
             _organizationUnitRepository = organizationUnitRepository;
             _userOrganizationUnitRepository = userOrganizationUnitRepository;
+            _userRoleRepository = userRoleRepository;
             _organizationUnitSettings = organizationUnitSettings;
             _settingManager = settingManager;
             _optionsAccessor = optionsAccessor;
@@ -370,6 +373,7 @@ namespace Abp.Authorization.Users
                 }
             }
 
+            user.CreationTime = DateTime.Now;//(tcl.add)
             return await base.UpdateAsync(user);
         }
 
@@ -425,7 +429,7 @@ namespace Abp.Authorization.Users
         public virtual async Task<IdentityResult> SetRoles(TUser user, string[] roleNames)
         {
             await AbpStore.UserRepository.EnsureCollectionLoadedAsync(user, u => u.Roles);
-
+            user.Roles = _userRoleRepository.GetAll().Where(p => p.UserId == user.Id).ToList();
             //Remove from removed roles
             foreach (var userRole in user.Roles.ToList())
             {

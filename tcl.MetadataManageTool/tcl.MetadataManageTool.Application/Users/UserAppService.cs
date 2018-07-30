@@ -17,6 +17,7 @@ using tcl.MetadataManageTool.Roles.Dto;
 using tcl.MetadataManageTool.Users.Dto;
 using Abp.SqlSugarCore.Repositories;
 using SqlSugar;
+using Abp.Authorization.Users;
 
 namespace tcl.MetadataManageTool.Users
 {
@@ -26,6 +27,7 @@ namespace tcl.MetadataManageTool.Users
         private readonly UserManager _userManager;
         private readonly RoleManager _roleManager;
         private readonly IRepository<Role> _roleRepository;
+        private readonly IRepository<UserRole> _userRoleRepository;
         private readonly IPasswordHasher<User> _passwordHasher;
 
         public UserAppService(
@@ -33,12 +35,14 @@ namespace tcl.MetadataManageTool.Users
             UserManager userManager,
             RoleManager roleManager,
             IRepository<Role> roleRepository,
+            IRepository<UserRole> userRoleRepository,
             IPasswordHasher<User> passwordHasher)
             : base(repository)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _roleRepository = roleRepository;
+            _userRoleRepository = userRoleRepository;
             _passwordHasher = passwordHasher;
         }
 
@@ -118,6 +122,7 @@ namespace tcl.MetadataManageTool.Users
 
         protected override UserDto MapToEntityDto(User user)
         {
+            user.Roles = _userRoleRepository.GetAll().Where(p=>p.UserId==user.Id).ToList();
             var roles = _roleManager.Roles.Where(r => user.Roles.Any(ur => ur.RoleId == r.Id)).Select(r => r.NormalizedName);
             var userDto = base.MapToEntityDto(user);
             userDto.RoleNames = roles.ToArray();

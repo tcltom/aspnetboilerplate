@@ -24,7 +24,7 @@ namespace tcl.MetadataManageTool.MultiTenancy
         private readonly EditionManager _editionManager;
         private readonly UserManager _userManager;
         private readonly RoleManager _roleManager;
-        private readonly IAbpZeroDbMigrator _abpZeroDbMigrator;
+       // private readonly IAbpZeroDbMigrator _abpZeroDbMigrator;
         private readonly IPasswordHasher<User> _passwordHasher;
 
         public TenantAppService(
@@ -33,7 +33,7 @@ namespace tcl.MetadataManageTool.MultiTenancy
             EditionManager editionManager,
             UserManager userManager,            
             RoleManager roleManager, 
-            IAbpZeroDbMigrator abpZeroDbMigrator, 
+            //IAbpZeroDbMigrator abpZeroDbMigrator, 
             IPasswordHasher<User> passwordHasher) 
             : base(repository)
         {
@@ -41,7 +41,7 @@ namespace tcl.MetadataManageTool.MultiTenancy
             _editionManager = editionManager;
             _userManager = userManager;
             _roleManager = roleManager;
-            _abpZeroDbMigrator = abpZeroDbMigrator;
+            //_abpZeroDbMigrator = abpZeroDbMigrator;
             _passwordHasher = passwordHasher;
         }
         
@@ -65,7 +65,7 @@ namespace tcl.MetadataManageTool.MultiTenancy
             await CurrentUnitOfWork.SaveChangesAsync(); // To get new tenant's id.
 
             // Create tenant database
-            _abpZeroDbMigrator.CreateOrMigrateForTenant(tenant);
+           // _abpZeroDbMigrator.CreateOrMigrateForTenant(tenant);
 
             // We are working entities of new tenant, so changing tenant filter
             using (CurrentUnitOfWork.SetTenantId(tenant.Id))

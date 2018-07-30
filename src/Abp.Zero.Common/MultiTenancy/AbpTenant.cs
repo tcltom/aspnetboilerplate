@@ -3,6 +3,7 @@ using Abp.Application.Editions;
 using Abp.Authorization.Users;
 using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
+using SqlSugar;
 
 namespace Abp.MultiTenancy
 {
@@ -15,22 +16,26 @@ namespace Abp.MultiTenancy
         /// <summary>
         /// Current <see cref="Edition"/> of the Tenant.
         /// </summary>
+        [SugarColumn(IsIgnore =true)]
         public virtual Edition Edition { get; set; }
         public virtual int? EditionId { get; set; }
 
         /// <summary>
         /// Reference to the creator user of this entity.
         /// </summary>
+        [SugarColumn(IsIgnore = true)]
         public virtual TUser CreatorUser { get; set; }
 
         /// <summary>
         /// Reference to the last modifier user of this entity.
         /// </summary>
+        [SugarColumn(IsIgnore = true)]
         public virtual TUser LastModifierUser { get; set; }
 
         /// <summary>
         /// Reference to the deleter user of this entity.
         /// </summary>
+        [SugarColumn(IsIgnore = true)]
         public virtual TUser DeleterUser { get; set; }
 
         /// <summary>

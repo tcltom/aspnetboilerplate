@@ -17,7 +17,7 @@ namespace Abp.Authorization
         /// </summary>
         public const int MaxNameLength = 128;
 
-        [SugarColumn(IsPrimaryKey = true)]
+        [SugarColumn(IsPrimaryKey = true,IsIdentity =true)]
         public virtual long Id { get; set; }
 
         public virtual int? TenantId { get; set; }
